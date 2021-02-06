@@ -23,7 +23,7 @@ public struct TagNavigationBar<HeadlineV:View>:View{
         self.withHomeButton = withHomeButton
     }
     
-    var body: some View {
+    public var body: some View {
         HStack{
             backButton
             headline().font(.headline)
@@ -49,6 +49,6 @@ public struct TagNavigationBar<HeadlineV:View>:View{
 
 struct CNavigationView_Previews: PreviewProvider {
     static var previews: some View {
-        C_NavigationBar{"title"}
+        TagNavigationBar{"title"}
     }
 }

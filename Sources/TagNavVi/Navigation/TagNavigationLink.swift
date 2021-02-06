@@ -30,7 +30,7 @@ public struct TagNavigationLink<Label, Destination> : View where Label : View, D
     }
 
     /// The content and behavior of the view.
-    var body: some View{
+    public var body: some View{
         if isActive.wrappedValue {nav.advance(NavigationItem(to)); return AnyView(label())}
         return AnyView(Button(action: advance){
             label()
