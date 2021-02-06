@@ -8,12 +8,12 @@
 import SwiftUI
 
 //TODO: add navigationBar
-public struct TagNavigationView<Tag:Hashable,Content:View> : View {
+public struct TagNavigationView<Tag:Hashable> : View {
 
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
     let tag : Tag
     
-    public init(tag : Tag , @ViewBuilder _ content: () -> Content){
+    public init<Content:View>(tag : Tag , @ViewBuilder _ content: () -> Content){
         self.tag = tag
         /*navs = */navs.observeChildrenChanges().append(
             k: tag,
@@ -25,7 +25,7 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
             )
         )
     }
-    var currentContent : some View {
+    var currentContent : AnyView {
         navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
     }
     var headline : AnyView?
@@ -45,11 +45,11 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
 
 extension TagNavigationView{
     
-    init(
+    public init(
         tag : Tag ,
         headline : AnyView,
         withHomeButton: Bool,
-        @ViewBuilder  content: () -> Content
+        content: () -> AnyView
     ){
         self.tag = tag
         /*navs = */navs.observeChildrenChanges().append(
@@ -67,11 +67,11 @@ extension TagNavigationView{
         withHomeButton : Bool = false,
         @ViewBuilder _ headline: @escaping () -> HeadlineV
     )->some View{
-        TagNavigationBar(
+        return TagNavigationView(
             tag: self.tag,
-            headline : headline,
+            headline : AnyView(headline()),
             withHomeButton: withHomeButton,
-            content: self.currentContent
+            content: {self.currentContent}
         )
     }
 }
