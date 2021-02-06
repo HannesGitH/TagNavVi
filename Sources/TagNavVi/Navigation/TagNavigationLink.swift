@@ -16,14 +16,14 @@ public struct TagNavigationLink< Tag : Hashable, Label:View, Destination:View> :
     private var isActive : Binding<Bool>
     
     /// Creates an instance that presents `destination`.
-    init(parentTag : Tag , destination: Destination, @ViewBuilder label: @escaping () -> Label){
+    public init(parentTag : Tag , destination: Destination, @ViewBuilder label: @escaping () -> Label){
         self.to = destination
         self.label = label
         self.isActive = .constant(false)
     }
 
     /// Creates an instance that presents `destination` when active.
-    init(parentTag : Tag , destination: Destination, isActive: Binding<Bool>, @ViewBuilder label: @escaping () -> Label){
+    public init(parentTag : Tag , destination: Destination, isActive: Binding<Bool>, @ViewBuilder label: @escaping () -> Label){
         self.to = destination
         self.label = label
         self.isActive = isActive
