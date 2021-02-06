@@ -19,7 +19,7 @@ public struct TagNavigationView<Tag:Hashable> : View {
         self.body = AnyView(
             TagNavigationView_(tag: self.tag, headline: self.headline, withHomeButton: self.withHomeButton){
                 AnyView(content())
-            }.environmentObject(NavigationStackCollection<Tag>([:]))
+            }.environmentObject(NavigationStackCollection<Int>([:]))
         )
     }
     public var body: AnyView
@@ -40,7 +40,7 @@ extension TagNavigationView{
         self.body = AnyView(
             TagNavigationView_(tag: self.tag, headline: self.headline, withHomeButton: self.withHomeButton){
                 content()
-            }.environmentObject(NavigationStackCollection<Tag>([:]))
+            }.environmentObject(NavigationStackCollection<Int>([:]))
         )
     }
     
@@ -62,7 +62,6 @@ extension TagNavigationView{
 struct TagNavigationView_<Tag:Hashable> : View {
 
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
-    
     let tag : Tag
     
     init<Content:View>(tag : Tag , @ViewBuilder _ content: () -> Content){
