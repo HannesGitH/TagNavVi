@@ -12,7 +12,7 @@ public class NavigationStackCollection<Tag:Hashable> : ObservableObject {
     @Published var dict:[Tag:NavigationStack<Tag>] = [:]
     var cancellables = [Tag:AnyCancellable]()
 
-    init(_ dict: [Tag:NavigationStack<Tag>]) {
+    public init(_ dict: [Tag:NavigationStack<Tag>]) {
         self.dict = dict
     }
     
