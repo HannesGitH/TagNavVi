@@ -81,3 +81,10 @@ extension TagNavigationView{
         )
     }
 }
+
+
+extension TagNavigationView {
+    func home<Tag:Hashable>(_ k : Tag)->some View{
+        self.environmentObject(NavigationStackCollection([k:NavigationStack(tag: k, NavigationItem(EmptyView()))]))
+    }
+}
