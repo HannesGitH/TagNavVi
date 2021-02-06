@@ -8,15 +8,26 @@
 import SwiftUI
 
 //TODO: add navigationBar
-public struct TagNavigationView<Content> : View where Content : View {
+public struct TagNavigationView<Tag:Hashable,Content:View> : View {
 
-    @ObservedObject var nav: NavigationStack
+    @EnvironmentObject var navs: NavigationStackCollection<Tag>
+    let tag : Tag
     
-    init(@ViewBuilder content: () -> Content){
-        self.nav=NavigationStack(NavigationItem(content()))
+    init(tag : Tag , @ViewBuilder content: () -> Content){
+        
+        self.tag = tag
+        /*navs = */navs.observeChildrenChanges().append(
+            k: tag,
+            v: NavigationStack(
+                tag: tag,
+                NavigationItem(
+                    content()
+                )
+            )
+        )
     }
 
     public var body: some View{
-        nav.currentView.view
+        navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
     }
 }

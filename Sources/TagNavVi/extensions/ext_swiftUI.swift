@@ -33,9 +33,9 @@ extension String : View {
 }
 
 public extension View {
-    func opens( @ViewBuilder _ view : View, on : Binding<Bool>)->some View{
+    func opens<UI:View,Tag:Hashable>( _ view : UI , on : Binding<Bool>, with tag : Tag)->some View{
         ZStack{
-            TagNavigationLink(destination: view, isActive: on) {
+            TagNavigationLink(parentTag: tag, destination: view, isActive: on) {
                 EmptyView()
             }
             self
