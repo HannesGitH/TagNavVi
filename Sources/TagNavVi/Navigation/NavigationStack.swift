@@ -8,10 +8,10 @@
 import SwiftUI
 
 final public class NavigationStack<Tag:Hashable>: ObservableObject,Hashable {
-    static func == (lhs: NavigationStack<Tag>, rhs: NavigationStack<Tag>) -> Bool {
+    public static func == (lhs: NavigationStack<Tag>, rhs: NavigationStack<Tag>) -> Bool {
         lhs.id == rhs.id
     }
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
