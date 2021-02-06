@@ -26,8 +26,25 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
             )
         )
     }
-
+    var headline : AnyView?
+    var withHomeButton = false
     public var body: some View{
-        navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
+        VStack{
+            if let hl = headline {
+                TagNavigationBar(tag: tag, withHomeButton : withHomeButton){
+                    hl
+                }
+            }
+            navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
+        }
     }
+    
+    public mutating func withTitle<HeadlineV:View>(
+        withHomeButton : Bool = false,
+        @ViewBuilder _ headline: @escaping () -> HeadlineV
+    ){
+        self.headline = AnyView(headline())
+        self.withHomeButton = withHomeButton
+    }
+    
 }

@@ -8,16 +8,16 @@
 import SwiftUI
 
 //TODO add to navigationView
-public struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
+struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
     
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
-    var nav : NavigationStack<Tag> {navs.dict[tag]!}
+    var nav : NavigationStack<Tag> {navs.dict[tag] ?? NavigationStack(tag:tag,NavigationItem(EmptyView()))}
     
     let headline:()->HeadlineV
     let withHomeButton:Bool
     let tag : Tag
     
-    public init(
+    init(
         tag : Tag,
         withHomeButton : Bool = false,
         @ViewBuilder _ headline: @escaping () -> HeadlineV
@@ -27,7 +27,7 @@ public struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
         self.tag = tag
     }
     
-    public var body: some View {
+    var body: some View {
         HStack{
             backButton
             headline().font(.headline)
