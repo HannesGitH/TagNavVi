@@ -31,14 +31,14 @@ public struct TagNavigationLink< Tag : Hashable, Label:View, Destination:View> :
 
     /// The content and behavior of the view.
     public var body: some View{
-        if isActive.wrappedValue {nav.advance(NavigationItem(to)); return AnyView(label())}
+        if isActive.wrappedValue {nav.advance(to); return AnyView(label())}
         return AnyView(Button(action: advance){
             label()
         })
     }
     
     private func advance(){
-        nav.advance(NavigationItem(to))
+        nav.advance(to)
         isActive.wrappedValue = true
     }
 }

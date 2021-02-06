@@ -31,11 +31,6 @@ final public class NavigationStack<Tag:Hashable>: ObservableObject,Hashable {
         viewStack.remove(at: previous+1)
         objectWillChange.send()
     }
-    public func advance(_ view:NavigationItem){
-        currentView = view
-        viewStack.append( currentView)
-        objectWillChange.send()
-    }
     public func advance<UI:View>(_ view:UI){
         currentView = NavigationItem(view)
         viewStack.append(currentView)
