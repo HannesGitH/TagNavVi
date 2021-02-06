@@ -17,8 +17,9 @@ public class NavigationStackCollection<Tag:Hashable> : ObservableObject {
     }
     
     func append(k:Tag,v:NavigationStack<Tag>) -> NavigationStackCollection<Tag> {
+        if dict[k] != nil {return self}
         self.dict[k]=v
-        return self
+        return self.observeChildrenChanges()
     }
 
     func observeChildrenChanges() -> NavigationStackCollection<Tag> {

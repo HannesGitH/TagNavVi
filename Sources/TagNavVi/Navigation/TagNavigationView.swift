@@ -13,32 +13,37 @@ public struct TagNavigationView<Tag:Hashable> : View {
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
     let tag : Tag
     
+    var newStack:(k:Tag,v:NavigationStack<Tag>)?
+    
     public init<Content:View>(tag : Tag , @ViewBuilder _ content: () -> Content){
         self.tag = tag
-        let newStack = (
+        newStack = (
             k:tag,
             v:NavigationStack(
                 tag: tag,
                 NavigationItem(
-                    content().environmentObject(navs)
+                    content()
                 )
             )
         )
-        navs.observeChildrenChanges().append(k:newStack.k,v:newStack.v)
     }
     var currentContent : AnyView {
-        navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
+        let x = navs.dict[tag]?.currentView.view ??
+            AnyView()
+        return x
     }
     var headline : AnyView?
     var withHomeButton = false
     public var body: some View{
-        VStack{
+        navs.append(k:newStack?.k ?? tag, v:newStack?.v ?? NavigationStack(tag: tag, NavigationItem("mist")))
+        return VStack{
             if let hl = headline {
                 TagNavigationBar(tag: tag, withHomeButton : withHomeButton){
                     hl
                 }
             }
             currentContent
+            Spacer()
         }
     }
     
@@ -46,22 +51,17 @@ public struct TagNavigationView<Tag:Hashable> : View {
 
 extension TagNavigationView{
     
-    public init(
+    init(
         tag : Tag ,
         headline : AnyView,
         withHomeButton: Bool,
-        content: () -> AnyView
+        newStack : (k:Tag,v:NavigationStack<Tag>)?
+        
     ){
+        self.headline=headline
+        self.withHomeButton=withHomeButton
         self.tag = tag
-        /*navs = */navs.observeChildrenChanges().append(
-            k: tag,
-            v: NavigationStack(
-                tag: tag,
-                NavigationItem(
-                    content().environmentObject(navs)
-                )
-            )
-        )
+        self.newStack = newStack
     }
     
     public func withTitle<HeadlineV:View>(
@@ -72,14 +72,14 @@ extension TagNavigationView{
             tag: self.tag,
             headline : AnyView(headline()),
             withHomeButton: withHomeButton,
-            content: {self.currentContent}
+            newStack: self.newStack
         )
     }
 }
 
 
 extension View {
-    func home<Tag:Hashable>(_ k : Tag)->some View{
-        self.environmentObject(NavigationStackCollection([k:NavigationStack(tag: k, NavigationItem(EmptyView()))]))
+    func home<Tag:Hashable>(_ k : Tag, _ v: AnyView = AnyView(Text("kein inhalt")))->some View{
+        self.environmentObject(NavigationStackCollection([k:NavigationStack(tag: k, NavigationItem(v))]).observeChildrenChanges())
     }
 }

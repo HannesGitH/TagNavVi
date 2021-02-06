@@ -29,9 +29,9 @@ struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
     
     var body: some View {
         HStack{
-            backButton
+            backButton.padding(.trailing,10)
             headline().font(.headline)
-        }
+        }.padding(.horizontal, 10).padding(.vertical,2)
     }
         
     @ViewBuilder private var backButton:some View{Group{
@@ -43,10 +43,9 @@ struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
             //Spacer().frame(width: 10)
             Button( action: nav.unwind){
                //Image(systemName: "house")
-                Text("􀄪") //wtf macos?
+               Text("􀄪") //wtf macos?
             }
         }}
-        .padding(.trailing, 20)
     }
 }
 
