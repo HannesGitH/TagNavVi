@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct NavigationItem{
+public struct NavigationItem{
     
-    init<UI:View>(_ v:UI) {
+    public init<UI:View>(_ v:UI) {
         self.view=AnyView(v)
     }
     
-    var view: AnyView
+    public var view: AnyView
 }

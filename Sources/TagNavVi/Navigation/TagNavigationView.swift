@@ -15,11 +15,6 @@ public struct TagNavigationView<Tag:Hashable> : View {
     
     public init<Content:View>(tag : Tag , @ViewBuilder _ content: () -> Content){
         self.tag = tag
-        do {
-            try _ = navs.observeChildrenChanges()
-        } catch  {
-            _navs = EnvironmentObject<NavigationStackCollection<Tag>>()
-        }
         let newStack = (
             k:tag,
             v:NavigationStack(
@@ -83,7 +78,7 @@ extension TagNavigationView{
 }
 
 
-extension TagNavigationView {
+extension View {
     func home<Tag:Hashable>(_ k : Tag)->some View{
         self.environmentObject(NavigationStackCollection([k:NavigationStack(tag: k, NavigationItem(EmptyView()))]))
     }
