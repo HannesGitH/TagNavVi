@@ -79,7 +79,7 @@ extension TagNavigationView{
 
 
 extension View {
-    func home<Tag:Hashable>(_ k : Tag, _ v: AnyView = AnyView(Text("kein inhalt")))->some View{
+    public func home<Tag:Hashable>(_ k : Tag, _ v: AnyView = AnyView(Text("kein inhalt")))->some View{
         self.environmentObject(NavigationStackCollection([k:NavigationStack(tag: k, NavigationItem(v))]).observeChildrenChanges())
     }
 }
