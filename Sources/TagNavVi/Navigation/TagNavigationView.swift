@@ -13,7 +13,7 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
     let tag : Tag
     
-    init(tag : Tag , @ViewBuilder content: () -> Content){
+    public init(tag : Tag , @ViewBuilder content: () -> Content){
         
         self.tag = tag
         /*navs = */navs.observeChildrenChanges().append(

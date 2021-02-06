@@ -17,7 +17,7 @@ public struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
     let withHomeButton:Bool
     let tag : Tag
     
-    init(
+    public init(
         tag : Tag,
         withHomeButton : Bool = false,
         @ViewBuilder _ headline: @escaping () -> HeadlineV

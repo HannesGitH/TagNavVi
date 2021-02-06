@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class NavigationStackCollection<Tag:Hashable> : ObservableObject {
+public class NavigationStackCollection<Tag:Hashable> : ObservableObject {
     @Published var dict:[Tag:NavigationStack<Tag>] = [:]
     var cancellables = [Tag:AnyCancellable]()
 
