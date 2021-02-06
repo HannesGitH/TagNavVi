@@ -15,15 +15,21 @@ public struct TagNavigationView<Tag:Hashable> : View {
     
     public init<Content:View>(tag : Tag , @ViewBuilder _ content: () -> Content){
         self.tag = tag
-        /*navs = */navs.observeChildrenChanges().append(
-            k: tag,
-            v: NavigationStack(
+        do {
+            try _ = navs.observeChildrenChanges()
+        } catch  {
+            _navs = EnvironmentObject<NavigationStackCollection<Tag>>()
+        }
+        let newStack = (
+            k:tag,
+            v:NavigationStack(
                 tag: tag,
                 NavigationItem(
                     content().environmentObject(navs)
                 )
             )
         )
+        navs.observeChildrenChanges().append(k:newStack.k,v:newStack.v)
     }
     var currentContent : AnyView {
         navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
