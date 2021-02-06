@@ -21,7 +21,7 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
             v: NavigationStack(
                 tag: tag,
                 NavigationItem(
-                    content()
+                    content().environmentObject(navs)
                 )
             )
         )
@@ -39,12 +39,13 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
         }
     }
     
-    public mutating func withTitle<HeadlineV:View>(
+    public func withTitle<HeadlineV:View>->some View(
         withHomeButton : Bool = false,
         @ViewBuilder _ headline: @escaping () -> HeadlineV
     ){
         self.headline = AnyView(headline())
         self.withHomeButton = withHomeButton
+        return self
     }
     
 }
