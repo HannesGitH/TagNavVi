@@ -31,3 +31,14 @@ extension String : View {
         Text(self)
     }
 }
+
+public extension View {
+    func opens( @ViewBuilder _ view : View, on : Binding<Bool>)->some View{
+        ZStack{
+            TagNavigationLink(destination: view, isActive: on) {
+                EmptyView()
+            }
+            self
+        }
+    }
+}
