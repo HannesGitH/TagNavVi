@@ -13,8 +13,7 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
     @EnvironmentObject var navs: NavigationStackCollection<Tag>
     let tag : Tag
     
-    public init(tag : Tag , @ViewBuilder content: () -> Content){
-        
+    public init(tag : Tag , @ViewBuilder _ content: () -> Content){
         self.tag = tag
         /*navs = */navs.observeChildrenChanges().append(
             k: tag,
@@ -26,6 +25,9 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
             )
         )
     }
+    var currentContent : some View {
+        navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
+    }
     var headline : AnyView?
     var withHomeButton = false
     public var body: some View{
@@ -35,17 +37,41 @@ public struct TagNavigationView<Tag:Hashable,Content:View> : View {
                     hl
                 }
             }
-            navs.dict[tag]?.currentView.view ?? AnyView(EmptyView())
+            currentContent
         }
     }
     
-    public mutating func withTitle<HeadlineV:View>(
+}
+
+extension TagNavigationView{
+    
+    init(
+        tag : Tag ,
+        headline : AnyView,
+        withHomeButton: Bool,
+        @ViewBuilder  content: () -> Content
+    ){
+        self.tag = tag
+        /*navs = */navs.observeChildrenChanges().append(
+            k: tag,
+            v: NavigationStack(
+                tag: tag,
+                NavigationItem(
+                    content().environmentObject(navs)
+                )
+            )
+        )
+    }
+    
+    public func withTitle<HeadlineV:View>(
         withHomeButton : Bool = false,
         @ViewBuilder _ headline: @escaping () -> HeadlineV
     )->some View{
-        self.headline = AnyView(headline())
-        self.withHomeButton = withHomeButton
-        return self
+        TagNavigationBar(
+            tag: self.tag,
+            headline : headline,
+            withHomeButton: withHomeButton,
+            content: self.currentContent
+        )
     }
-    
 }
