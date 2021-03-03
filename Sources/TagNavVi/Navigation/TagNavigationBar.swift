@@ -37,13 +37,13 @@ struct TagNavigationBar<Tag:Hashable,HeadlineV:View>:View{
     @ViewBuilder private var backButton:some View{Group{
         if !nav.isHome{
             Button( action: nav.unwind){
-                //Image(systemName: "arrow.backward")
-                Text("􀎞") //wtf macos?
+                Image(systemName: "arrow.backward")
+                //Text("􀎞") //wtf macos?
             }
             //Spacer().frame(width: 10)
             Button( action: nav.unwind){
-               //Image(systemName: "house")
-               Text("􀄪") //wtf macos?
+               Image(systemName: "house")
+               //Text("􀄪") //wtf macos?
             }
         }}
     }
